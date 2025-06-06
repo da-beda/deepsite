@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import classNames from "classnames";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { PiGearSixFill } from "react-icons/pi";
 // @ts-expect-error not needed
 import { PROVIDERS } from "./../../../utils/providers";
+import { LocalSettings } from "../../../utils/types";
 
 function Settings({
   open,
@@ -19,18 +19,18 @@ function Settings({
   error?: string;
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: (provider: string) => void;
-  localSettings: any;
-  setLocalSettings: React.Dispatch<React.SetStateAction<any>>;
+  localSettings: LocalSettings;
+  setLocalSettings: React.Dispatch<React.SetStateAction<LocalSettings>>;
 }) {
 
   // persist the local settings to local storage
-  const persistLocalSettings = () => {
+  const persistLocalSettings = useCallback(() => {
     localStorage.setItem('localSettings', JSON.stringify(localSettings));
-  };
+  }, [localSettings]);
 
   useEffect(() => {
     persistLocalSettings();
-  }, [localSettings]);
+  }, [persistLocalSettings]);
 
   return (
     <div className="">

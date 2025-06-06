@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { RiSparkling2Fill } from "react-icons/ri";
 import { GrSend } from "react-icons/gr";
@@ -12,6 +11,7 @@ import { defaultHTML } from "./../../../utils/consts";
 import SuccessSound from "./../../assets/success.mp3";
 import Settings from "../settings/settings";
 import ProModal from "../pro-modal/pro-modal";
+import { LocalSettings } from "../../../utils/types";
 
 function AskAI({
   html,
@@ -38,9 +38,9 @@ function AskAI({
   const [openProvider, setOpenProvider] = useState(false);
   const [providerError, setProviderError] = useState("");
   const [openProModal, setOpenProModal] = useState(false);
-  const [localSettings, setLocalSettings] = useState(() => {
+  const [localSettings, setLocalSettings] = useState<LocalSettings>(() => {
     const saved = localStorage.getItem('localSettings');
-    return saved ? JSON.parse(saved) : {
+    return saved ? (JSON.parse(saved) as LocalSettings) : {
       apiKey: "",
       apiUrl: "http://localhost:11434/v1",
       model: "gemma3:1b",
@@ -53,7 +53,7 @@ function AskAI({
   const loadLocalSettings = () => {
     const saved = localStorage.getItem('localSettings');
     if (saved) {
-      const parsed = JSON.parse(saved);
+      const parsed = JSON.parse(saved) as LocalSettings;
       setLocalSettings(parsed);
     } else {
       setLocalSettings({
@@ -177,11 +177,11 @@ function AskAI({
         read();
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    } catch (error: unknown) {
       setisAiWorking(false);
-      toast.error(error.message);
-      if (error.openLogin) {
+      const err = error as { message?: string; openLogin?: boolean };
+      toast.error(err.message ?? "An error occurred");
+      if (err.openLogin) {
         setOpen(true);
       }
     }
