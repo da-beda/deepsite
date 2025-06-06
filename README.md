@@ -50,6 +50,20 @@ docker build -t deepsite .
 docker run -p 3000:3000 deepsite
 ```
 
+## Deploy to GitHub Pages
+
+The repository includes a workflow to automatically build and publish the site
+using **GitHub Pages**. Push changes to the `main` branch and GitHub Actions
+will deploy the latest production build to the `gh-pages` environment.
+
+You can also build the static files locally:
+
+```bash
+npm run build
+```
+
+The generated files in the `dist` folder are what GitHub Pages serves.
+
 ## Login and Remix features
 `/api/login` and `/api/remix` routes are used when running DeepSite inside the
 Hugging Face Hub. They are not implemented in this repository, so those
