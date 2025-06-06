@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "middleware", "utils/consts.ts", "utils/types.ts"]
+  "include": ["src", "middleware", "utils/consts.ts", "utils/types.ts", "server.ts"]
 }

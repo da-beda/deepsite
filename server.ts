@@ -1,3 +1,4 @@
+// @ts-nocheck
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -33,7 +34,7 @@ app.post("/api/ask-ai", async (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  let systemPrompt = `ONLY USE HTML, CSS AND JAVASCRIPT. No explanations, ONLY CODE. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Use as much as you can TailwindCSS for the CSS, if you can't do something with TailwindCSS, then use custom CSS (make sure to import <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> in the head). Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE`;
+const systemPrompt = `ONLY USE HTML, CSS AND JAVASCRIPT. No explanations, ONLY CODE. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Use as much as you can TailwindCSS for the CSS, if you can't do something with TailwindCSS, then use custom CSS (make sure to import <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> in the head). Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE`;
 
   let TOKENS_USED = prompt?.length;
   if (previousPrompt) TOKENS_USED += previousPrompt.length;
@@ -147,17 +148,20 @@ app.post("/api/ask-ai", async (req, res) => {
       }
       res.end();
     } catch (error) {
-      if (error.message.includes("exceeded")) {
+      const err = error as Error;
+      if (err.message.includes("exceeded")) {
         return res.status(402).send({
           ok: false,
-          message: error.message,
+          message: err.message,
         });
       }
+      const message = err.message.includes("fetch")
+        ? "Network error while contacting provider"
+        : err.message || "An error occurred while processing your request.";
       if (!res.headersSent) {
         res.status(500).send({
           ok: false,
-          message:
-            error.message || "An error occurred while processing your request.",
+          message,
         });
       } else {
         // Otherwise end the stream

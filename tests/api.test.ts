@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import request from 'supertest';
-import app from '../server.js';
+import app from '../server.ts';
 import { ReadableStream } from 'node:stream/web';
 import { TextEncoder } from 'node:util';
 
