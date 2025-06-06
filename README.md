@@ -43,6 +43,13 @@ npm run build
 npm run start
 ```
 
+## Docker
+You can also run DeepSite using Docker:
+```bash
+docker build -t deepsite .
+docker run -p 3000:3000 deepsite
+```
+
 ## Login and Remix features
 `/api/login` and `/api/remix` routes are used when running DeepSite inside the
 Hugging Face Hub. They are not implemented in this repository, so those
