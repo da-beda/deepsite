@@ -167,10 +167,25 @@ app.post("/api/ask-ai", async (req, res) => {
   }
 });
 
+app.get("/api/login", (req, res) => {
+  res.json({ redirectUrl: "https://huggingface.co/login" });
+});
+
+app.get("/api/remix/:user/:repo", async (req, res) => {
+  const { user, repo } = req.params;
+  // In this stripped down version we simply return a demo HTML.
+  const html = `<html><body>Remixed ${user}/${repo}</body></html>`;
+  res.json({ ok: true, html, isOwner: true, path: `${user}/${repo}` });
+});
+
 app.get("*", (_req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+export default app;
