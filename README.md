@@ -30,6 +30,18 @@ npm run build
 npm run start
 ```
 
+## API Endpoints
+
+Two helper endpoints are available once the server is running:
+
+* `GET /api/login` – Returns `{redirectUrl: "https://huggingface.co/login"}`. The frontend opens this URL in a new tab so you can sign in with your Hugging Face account.
+* `GET /api/remix/:path` – Loads a public Space at `:path` (for example `username/space-name`) and returns its HTML and ownership flag used by the editor.
+
 ### keywords
 deepsite local hosting, deepsite run locally, deepsite self-hosted, how to run deepsite locally, install deepsite on your machine, deepsite local server setup, deepsite offline mode, deepsite localhost tutorial, deploy deepsite on your own server, deepsite self-install guide, how to host deepsite on localhost step-by-step, can deepsite run offline on my computer, deepsite docker installation guide, full guide to running deepsite locally without internet, deepsite self-host vs cloud hosting comparison, deepsite performance tips when running locally, requirements to run deepsite on local environment, best practices for self-hosting deepsite platform, how to speed up deepsite in a local environment, common errors when running deepsite locally and how to fix, deepsite vs other ai site builders local run comparison, top reasons to run deepsite on your own server, is deepsite open-source and local-friendly
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
