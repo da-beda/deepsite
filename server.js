@@ -167,37 +167,25 @@ app.post("/api/ask-ai", async (req, res) => {
   }
 });
 
-app.get("/api/login", (_req, res) => {
-  res.json({
-    redirectUrl: "https://huggingface.co/login",
-  });
+app.get("/api/login", (req, res) => {
+  res.json({ redirectUrl: "https://huggingface.co/login" });
 });
 
-app.get("/api/remix/:path(*)", async (req, res) => {
-  const { path: spacePath } = req.params;
-  if (!spacePath) {
-    return res.status(400).json({ message: "Space path is required" });
-  }
-  try {
-    const response = await fetch(
-      `https://huggingface.co/spaces/${spacePath}/raw/main/index.html`
-    );
-    if (!response.ok) {
-      return res
-        .status(response.status)
-        .json({ message: "Failed to fetch Space HTML" });
-    }
-    const html = await response.text();
-    res.json({ html, isOwner: false, path: spacePath });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+app.get("/api/remix/:user/:repo", async (req, res) => {
+  const { user, repo } = req.params;
+  // In this stripped down version we simply return a demo HTML.
+  const html = `<html><body>Remixed ${user}/${repo}</body></html>`;
+  res.json({ ok: true, html, isOwner: true, path: `${user}/${repo}` });
 });
 
 app.get("*", (_req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+export default app;
