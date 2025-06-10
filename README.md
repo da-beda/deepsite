@@ -55,7 +55,7 @@ docker run -p 3000:3000 deepsite
 The repository includes a workflow to automatically build and publish the site
 using **GitHub Pages**. Push changes to the `main` branch and GitHub Actions
 will deploy the latest production build to the `gh-pages` environment. The Vite
-configuration sets the base path to `/deepsite-locally/` when building for
+configuration sets the base path to `/deepsite/` when building for
 production so the site loads correctly from GitHub Pages.
 
 You can also build the static files locally:
