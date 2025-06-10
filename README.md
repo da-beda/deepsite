@@ -16,7 +16,10 @@ git clone https://github.com/MartinsMessias/deepsite-locally.git
 
 ### 2. Configure environment variables
 Copy `.env.example` to `.env` and change `APP_PORT` if you want the server to run
-on another port. If not configured, the server defaults to **3000**.
+on another port. If you need to call an external server when deploying the
+frontend statically, set `VITE_API_BASE_URL` to the API's base URL. When unset the
+frontend will use relative paths and expect the API to be served from the same
+origin. If not configured, the server defaults to **3000**.
 ```bash
 cp .env.example .env
 ```

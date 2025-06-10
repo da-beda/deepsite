@@ -23,7 +23,8 @@ function LoadButton({
   const loadSpace = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/remix/${url}`);
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+      const res = await fetch(`${baseUrl}/api/remix/${url}`);
       const data = await res.json();
       if (res.ok) {
         if (data.html) {

@@ -14,7 +14,8 @@ function Login({
     if (html !== defaultHTML) {
       setStorage(html);
     }
-    const request = await fetch("/api/login");
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+    const request = await fetch(`${baseUrl}/api/login`);
     const res = await request.json();
     if (res?.redirectUrl) {
       window.open(res.redirectUrl, "_blank");
