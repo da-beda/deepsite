@@ -83,7 +83,8 @@ function AskAI({
     let lastRenderTime = 0;
     try {
       onNewPrompt(prompt);
-      const request = await fetch("/api/ask-ai", {
+      const baseUrl = import.meta.env.VITE_API_BASE_URL || "";
+      const request = await fetch(`${baseUrl}/api/ask-ai`, {
         method: "POST",
         body: JSON.stringify({
           prompt,
